@@ -1,7 +1,7 @@
 const user = "x";
 const com = "o";
 
-const gameBoard = function() {
+function gameBoard() {
   let table = [
     "", "", "", // 0, 1, 2,
     "", "", "", // 3, 4, 5,
