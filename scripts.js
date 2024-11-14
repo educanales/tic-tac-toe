@@ -7,11 +7,18 @@ function Gameboard() {
 
   const getTable = () => table;
 
-  const setPosition = (player, position) => {
-    table.splice(position, 1, player)
+  const printTable = () => console.log(table);
+
+  const setPosition = (player, position) => {    
+    if (table[position] !== "") {
+      console.log("Error, this position is already used")
+      return
+    } else {      
+      table.splice(position, 1, player)
+    }
   }
 
-  return { getTable, setPosition };
+  return { getTable, printTable, setPosition };
 }
 
 function GameController(playerOneName = "User", playerTwoName = "COM") {
@@ -37,8 +44,7 @@ function GameController(playerOneName = "User", playerTwoName = "COM") {
   const getActivePlayer = () => activePlayer;
 
   const printNewRound = () => {
-    board.getTable();
-    console.log(board.getTable())
+    board.printTable();    
     console.log(`${getActivePlayer().name}'s turn.`);
   };
 
@@ -57,7 +63,7 @@ function GameController(playerOneName = "User", playerTwoName = "COM") {
 
 const game = GameController();
 
-game.playRound(0)
+// game.playRound(0)
 
 
 /*
