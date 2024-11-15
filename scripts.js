@@ -1,25 +1,26 @@
 function Gameboard() {
   let table = [
-    "", "", "", // 0, 1, 2,
-    "", "", "", // 3, 4, 5,
-    "", "", "", // 6, 7, 8,
-  ]
+    "0", "1", "2", // 0, 1, 2,
+    "3", "4", "5", // 3, 4, 5,
+    "6", "7", "8", // 6, 7, 8,
+  ];
 
   const getTable = () => table;
 
   const printTable = () => console.log(table);
 
-  const setPosition = (player, position) => {    
-    if (table[position] !== "") {
-      console.log("Error, this position is already used")
-      return
+  const setPosition = (token, position) => {    
+    if (table[position] === "X" || table[position] === "O") {
+      console.log("Error, this position is already used");
+      return;
     } else {      
-      table.splice(position, 1, player)
+      table.splice(position, 1, token);
     }
-  }
+  }  
 
   return { getTable, printTable, setPosition };
 }
+
 
 function GameController(playerOneName = "User", playerTwoName = "COM") {
   const board = Gameboard();
@@ -27,33 +28,58 @@ function GameController(playerOneName = "User", playerTwoName = "COM") {
   const players = [
     {
       name: playerOneName,
-      value: "X"
+      token: "X"
     },
     {
       name: playerTwoName,
-      value: "O"
+      token: "O"
     }
   ];
+
+  let finishGame = false;
+
+  const setEndGame = () => finishGame = true;
 
   let activePlayer = players[0];
 
   const switchPlayerTurn = () => {
     activePlayer = activePlayer === players[0] ? players[1] : players[0];
-  };
+  }
 
   const getActivePlayer = () => activePlayer;
+
+  const checkWinner = (player) => {
+    if (
+      board.getTable()[0] === board.getTable()[1] && board.getTable()[1] === board.getTable()[2] ||
+      board.getTable()[0] === board.getTable()[3] && board.getTable()[3] === board.getTable()[6] ||
+      board.getTable()[0] === board.getTable()[4] && board.getTable()[4] === board.getTable()[8] ||
+      board.getTable()[1] === board.getTable()[4] && board.getTable()[4] === board.getTable()[7] ||
+      board.getTable()[2] === board.getTable()[5] && board.getTable()[5] === board.getTable()[8] ||
+      board.getTable()[3] === board.getTable()[4] && board.getTable()[4] === board.getTable()[5] ||
+      board.getTable()[6] === board.getTable()[7] && board.getTable()[7] === board.getTable()[8] ||
+      board.getTable()[6] === board.getTable()[4] && board.getTable()[4] === board.getTable()[2]
+    ) {
+      setEndGame();
+      console.log(`${player} wins`);
+    }
+  }
 
   const printNewRound = () => {
     board.printTable();    
     console.log(`${getActivePlayer().name}'s turn.`);
-  };
+  }
 
   const playRound = (position) => {
     console.log(`${getActivePlayer().name} has selected position ${position}`);
-    board.setPosition(getActivePlayer().value, position);
+    board.setPosition(getActivePlayer().token, position);
 
-    switchPlayerTurn();
-    printNewRound();
+    checkWinner(getActivePlayer().name);
+    if (finishGame) {
+      return;
+    } else {
+        switchPlayerTurn();
+        printNewRound();
+      }    
   }
 
   printNewRound();
@@ -61,22 +87,6 @@ function GameController(playerOneName = "User", playerTwoName = "COM") {
   return { playRound, getActivePlayer };
 }
 
-const game = GameController();
+const game = GameController("Edu");
 
 // game.playRound(0)
-
-
-/*
-if (
-  table[0] === table[1] && table[1] === table[2] ||
-  table[0] === table[3] && table[3] === table[6] ||
-  table[0] === table[4] && table[4] === table[8] ||
-  table[1] === table[4] && table[4] === table[7] ||
-  table[2] === table[5] && table[5] === table[8] ||
-  table[3] === table[4] && table[4] === table[5] ||
-  table[6] === table[7] && table[7] === table[8] ||
-  table[6] === table[4] && table[4] === table[2]
-) {
-  
-}
-*/
