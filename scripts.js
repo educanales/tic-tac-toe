@@ -1,4 +1,4 @@
-function Gameboard() {
+const Gameboard = (function () {
   let table = [
     "0", "1", "2", // 0, 1, 2,
     "3", "4", "5", // 3, 4, 5,
@@ -19,11 +19,11 @@ function Gameboard() {
   }  
 
   return { getTable, printTable, setPosition };
-}
+})();
 
 
 function GameController(playerOneName = "User", playerTwoName = "COM") {
-  const board = Gameboard();
+  // const board = Gameboard();
 
   const players = [
     {
@@ -50,14 +50,14 @@ function GameController(playerOneName = "User", playerTwoName = "COM") {
 
   const checkWinner = (player) => {
     if (
-      board.getTable()[0] === board.getTable()[1] && board.getTable()[1] === board.getTable()[2] ||
-      board.getTable()[0] === board.getTable()[3] && board.getTable()[3] === board.getTable()[6] ||
-      board.getTable()[0] === board.getTable()[4] && board.getTable()[4] === board.getTable()[8] ||
-      board.getTable()[1] === board.getTable()[4] && board.getTable()[4] === board.getTable()[7] ||
-      board.getTable()[2] === board.getTable()[5] && board.getTable()[5] === board.getTable()[8] ||
-      board.getTable()[3] === board.getTable()[4] && board.getTable()[4] === board.getTable()[5] ||
-      board.getTable()[6] === board.getTable()[7] && board.getTable()[7] === board.getTable()[8] ||
-      board.getTable()[6] === board.getTable()[4] && board.getTable()[4] === board.getTable()[2]
+      Gameboard.getTable()[0] === Gameboard.getTable()[1] && Gameboard.getTable()[1] === Gameboard.getTable()[2] ||
+      Gameboard.getTable()[0] === Gameboard.getTable()[3] && Gameboard.getTable()[3] === Gameboard.getTable()[6] ||
+      Gameboard.getTable()[0] === Gameboard.getTable()[4] && Gameboard.getTable()[4] === Gameboard.getTable()[8] ||
+      Gameboard.getTable()[1] === Gameboard.getTable()[4] && Gameboard.getTable()[4] === Gameboard.getTable()[7] ||
+      Gameboard.getTable()[2] === Gameboard.getTable()[5] && Gameboard.getTable()[5] === Gameboard.getTable()[8] ||
+      Gameboard.getTable()[3] === Gameboard.getTable()[4] && Gameboard.getTable()[4] === Gameboard.getTable()[5] ||
+      Gameboard.getTable()[6] === Gameboard.getTable()[7] && Gameboard.getTable()[7] === Gameboard.getTable()[8] ||
+      Gameboard.getTable()[6] === Gameboard.getTable()[4] && Gameboard.getTable()[4] === Gameboard.getTable()[2]
     ) {
       setEndGame();
       console.log(`${player} wins`);
@@ -65,13 +65,13 @@ function GameController(playerOneName = "User", playerTwoName = "COM") {
   }
 
   const printNewRound = () => {
-    board.printTable();    
+    Gameboard.printTable();    
     console.log(`${getActivePlayer().name}'s turn.`);
   }
 
   const playRound = (position) => {
     console.log(`${getActivePlayer().name} has selected position ${position}`);
-    board.setPosition(getActivePlayer().token, position);
+    Gameboard.setPosition(getActivePlayer().token, position);
 
     checkWinner(getActivePlayer().name);
     if (finishGame) {
@@ -79,7 +79,7 @@ function GameController(playerOneName = "User", playerTwoName = "COM") {
     } else {
         switchPlayerTurn();
         printNewRound();
-      }    
+      }
   }
 
   printNewRound();
