@@ -96,9 +96,10 @@ function GameController(
       Gameboard.setPosition(i, i);
     }
     turns = 1;
+    finishGame = false;
     activePlayer = players[0];
     Display.newRound(getActivePlayer().name);
-    console.log(Gameboard.getTable());
+    // console.log(Gameboard.getTable());
   }
 
   Display.newRound(getActivePlayer().name);
