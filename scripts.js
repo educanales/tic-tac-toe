@@ -1,13 +1,11 @@
 const Gameboard = (function() {
   let table = [
-    "0", "1", "2", // 0, 1, 2,
-    "3", "4", "5", // 3, 4, 5,
-    "6", "7", "8", // 6, 7, 8,
+    "0", "1", "2",
+    "3", "4", "5",
+    "6", "7", "8",
   ];
 
   const getTable = () => table;
-
-  const printTable = () => console.log(table);
 
   const setPosition = (token, position) => {    
     if (table[position] === "X" || table[position] === "O") {
@@ -16,9 +14,9 @@ const Gameboard = (function() {
     } else {      
       table.splice(position, 1, token);
     }
-  }  
+  }
 
-  return { getTable, printTable, setPosition };
+  return { getTable, setPosition };
 })();
 
 
@@ -26,7 +24,6 @@ function GameController(
   playerOneName = "Player 1",
   playerTwoName = "Player 2"
 ) {
-  // const board = Gameboard();
 
   const players = [
     {
@@ -39,16 +36,17 @@ function GameController(
     },
   ];
 
-  let finishGame = false;
+  let turns = 1;
+  const addTurn = () => turns++;
 
+  let finishGame = false;
   const setEndGame = () => (finishGame = true);
 
   let activePlayer = players[0];
-
   const switchPlayerTurn = () => {
     activePlayer = activePlayer === players[0] ? players[1] : players[0];
+    addTurn();
   };
-
   const getActivePlayer = () => activePlayer;
 
   const checkWinner = (player) => {
@@ -71,45 +69,37 @@ function GameController(
         Gameboard.getTable()[4] === Gameboard.getTable()[2])
     ) {
       setEndGame();
-      Display.winner(getActivePlayer().name);
-      console.log(`${player} wins`);
+      Display.winner(player);
     }
   };
 
-  // const printNewRound = () => {
-  //   Gameboard.printTable();
-  //   console.log(`${getActivePlayer().name}'s turn.`);
-  // };
+  const checkTie = () => {
+    if (turns === 10) {
+      setEndGame();
+      Display.tie();
+    }
+  }
 
   const playRound = (position) => {
-    // console.log(`${getActivePlayer().name} has selected position ${position}`);
-    if (
-      Gameboard.getTable()[position] === "X" || 
-      Gameboard.getTable()[position] === "O"
-    ) {
-      console.log("error");
-      return
-      } else {
-        Gameboard.setPosition(getActivePlayer().token, position);
-        // switchPlayerTurn();
-      }
-
+    Gameboard.setPosition(getActivePlayer().token, position);
+    
     checkWinner(getActivePlayer().name);
+
     if (finishGame) {
       return;
     } else {
       switchPlayerTurn();
-      // printNewRound();
       Display.newRound(getActivePlayer().name);
     }
+
+    checkTie();
   };
 
   Display.newRound(getActivePlayer().name);
-  // printNewRound();
-  // Display();
 
   return { playRound, getActivePlayer };
 }
+
 
 const Display = (function() {
   const btn = document.querySelectorAll(".btn");
@@ -120,7 +110,12 @@ const Display = (function() {
   }
 
   const winner = (activePlayer) => {
-    turn.textContent = `${activePlayer} wins.`;
+    turn.textContent = `${activePlayer} wins!`;
+    btn.forEach((button) => button.setAttribute("disabled", true));
+  }
+
+  const tie = () => {
+    turn.textContent = "It's a tie!";
     btn.forEach((button) => button.setAttribute("disabled", true));
   }
 
@@ -132,9 +127,7 @@ const Display = (function() {
     });
   });
 
-  return { newRound, winner };
+  return { newRound, winner, tie };
 })();
 
 const game = GameController();
-
-// game.playRound(0)
