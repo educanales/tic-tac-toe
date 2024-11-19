@@ -8,12 +8,7 @@ const Gameboard = (function() {
   const getTable = () => table;
 
   const setPosition = (token, position) => {    
-    if (table[position] === "X" || table[position] === "O") {
-      console.log("Error, this position is already used");
-      return;
-    } else {      
-      table.splice(position, 1, token);
-    }
+    table.splice(position, 1, token);    
   }
 
   return { getTable, setPosition };
@@ -93,17 +88,29 @@ function GameController(
     }
 
     checkTie();
+    console.log(Gameboard.getTable());
   };
+
+  const reset = () => {
+    for (let i = 0; i <= Gameboard.getTable().length - 1; i++) {
+      Gameboard.setPosition(i, i);
+    }
+    turns = 1;
+    activePlayer = players[0];
+    Display.newRound(getActivePlayer().name);
+    console.log(Gameboard.getTable());
+  }
 
   Display.newRound(getActivePlayer().name);
 
-  return { playRound, getActivePlayer };
+  return { playRound, getActivePlayer, reset };
 }
 
 
 const Display = (function() {
   const btn = document.querySelectorAll(".btn");
   const turn = document.querySelector(".turn");
+  const resetBtn = document.querySelector(".reset-btn");
 
   const newRound = (activePlayer) => {
     turn.textContent = `${activePlayer}'s turn.`;
@@ -118,6 +125,14 @@ const Display = (function() {
     turn.textContent = "It's a tie!";
     btn.forEach((button) => button.setAttribute("disabled", true));
   }
+
+  resetBtn.addEventListener("click", () => {
+    game.reset();
+    btn.forEach((button) => {
+      button.textContent = "";
+      button.removeAttribute("disabled");
+    });
+  });
 
   btn.forEach((button) => {
     button.addEventListener("click", () => {
