@@ -59,6 +59,30 @@ header,
   margin-bottom: 2rem;
 }
 
+.score-container {
+  display: flex;
+  justify-content: space-between;
+  /* align-items: center; */
+  gap: 3rem;
+  margin: 0 auto;
+  max-width: 300px;
+  margin-bottom: 2rem;
+}
+
+.score-text > p {
+  text-align: center;
+}
+
+.player1-name,
+.player2-name {
+  font-size: 1.1rem;
+}
+
+.player1-score,
+.player2-score {
+  font-size: 1.8rem;
+}
+
 .btn-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(4rem, 6rem));
