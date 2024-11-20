@@ -24,10 +24,12 @@ function GameController(
     {
       name: playerOneName,
       token: "X",
+      score: 0,
     },
     {
       name: playerTwoName,
       token: "O",
+      score: 0,
     },
   ];
 
@@ -64,9 +66,21 @@ function GameController(
         Gameboard.getTable()[4] === Gameboard.getTable()[2])
     ) {
       setEndGame();
-      Display.winner(player);
+      Display.winner(player.name);
+      updateScore(player);
+      Display.score(players[0], players[1]);
     }
   };
+
+  const updateScore = (winner) => {
+    players.map((player) => {
+      if (player.name === winner.name) {
+        return { ...player, score: winner.score++ };
+      } else {
+        return player;
+      }      
+    })
+  }
 
   const checkTie = () => {
     if (turns === 10) {
@@ -75,10 +89,10 @@ function GameController(
     }
   }
 
-  const playRound = (position) => {
+  const playRound = (position) => {    
     Gameboard.setPosition(getActivePlayer().token, position);
     
-    checkWinner(getActivePlayer().name);
+    checkWinner(getActivePlayer());
 
     if (finishGame) {
       return;
@@ -88,7 +102,6 @@ function GameController(
     }
 
     checkTie();
-    console.log(Gameboard.getTable());
   };
 
   const reset = () => {
@@ -99,10 +112,10 @@ function GameController(
     finishGame = false;
     activePlayer = players[0];
     Display.newRound(getActivePlayer().name);
-    // console.log(Gameboard.getTable());
   }
 
   Display.newRound(getActivePlayer().name);
+  Display.score(players[0], players[1]);
 
   return { playRound, getActivePlayer, reset };
 }
@@ -112,6 +125,10 @@ const Display = (function() {
   const btn = document.querySelectorAll(".btn");
   const turn = document.querySelector(".turn");
   const resetBtn = document.querySelector(".reset-btn");
+  const playerOneName = document.querySelector(".player1-name");
+  const playerTwoName = document.querySelector(".player2-name");
+  const playerOneScore = document.querySelector(".player1-score");
+  const playerTwoScore = document.querySelector(".player2-score");
 
   const newRound = (activePlayer) => {
     turn.textContent = `${activePlayer}'s turn.`;
@@ -125,6 +142,13 @@ const Display = (function() {
   const tie = () => {
     turn.textContent = "It's a tie!";
     btn.forEach((button) => button.setAttribute("disabled", true));
+  }
+
+  const score = (player1, player2) => {
+    playerOneName.textContent = `${player1.name}`;
+    playerOneScore.textContent = `${player1.score}`;
+    playerTwoName.textContent = `${player2.name}`;
+    playerTwoScore.textContent = `${player2.score}`;
   }
 
   resetBtn.addEventListener("click", () => {
@@ -143,7 +167,7 @@ const Display = (function() {
     });
   });
 
-  return { newRound, winner, tie };
+  return { newRound, winner, tie, score };
 })();
 
 const game = GameController();
