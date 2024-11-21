@@ -82,6 +82,11 @@ function GameController(
     })
   }
 
+  const editName = (index, newName) => {
+    players[index].name = newName;
+    Display.score(players[0], players[1]);
+  }
+
   const checkTie = () => {
     if (turns === 10) {
       setEndGame();
@@ -117,7 +122,7 @@ function GameController(
   Display.newRound(getActivePlayer().name);
   Display.score(players[0], players[1]);
 
-  return { playRound, getActivePlayer, reset };
+  return { playRound, getActivePlayer, reset, editName };
 }
 
 
@@ -129,6 +134,11 @@ const Display = (function() {
   const playerTwoName = document.querySelector(".player2-name");
   const playerOneScore = document.querySelector(".player1-score");
   const playerTwoScore = document.querySelector(".player2-score");
+  const playerOneDialog = document.querySelector(".player1-modal");
+  const playerOneForm = document.forms["player1-form"];
+  const playerTwoDialog = document.querySelector(".player2-modal");
+  const playerTwoForm = document.forms["player2-form"];
+  // const cancelBtn = document.querySelector(".cancel-btn");
 
   const newRound = (activePlayer) => {
     turn.textContent = `${activePlayer}'s turn.`;
@@ -151,19 +161,42 @@ const Display = (function() {
     playerTwoScore.textContent = `${player2.score}`;
   }
 
-  resetBtn.addEventListener("click", () => {
-    game.reset();
-    btn.forEach((button) => {
-      button.textContent = "";
-      button.removeAttribute("disabled");
-    });
+  playerOneName.addEventListener("click", () => playerOneDialog.showModal());
+
+  playerOneForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    game.editName(0, newname1.value);
+    newname1.value = "";
+    playerOneDialog.close();
   });
 
+  playerTwoName.addEventListener("click", () => playerTwoDialog.showModal());
+
+  playerTwoForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    game.editName(1, newname2.value);
+    newname2.value = "";
+    playerTwoDialog.close();
+  });
+
+  // cancelBtn.addEventListener("click", () => {
+  //   playerOneDialog.close();
+  //   playerTwoDialog.close();
+  // });
+  
   btn.forEach((button) => {
     button.addEventListener("click", () => {
       button.textContent = `${game.getActivePlayer().token}`;
       button.toggleAttribute("disabled");
       game.playRound(button.id);
+    });
+  });
+
+  resetBtn.addEventListener("click", () => {
+    game.reset();
+    btn.forEach((button) => {
+      button.textContent = "";
+      button.removeAttribute("disabled");
     });
   });
 
