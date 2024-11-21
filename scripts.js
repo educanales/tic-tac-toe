@@ -138,7 +138,8 @@ const Display = (function() {
   const playerOneForm = document.forms["player1-form"];
   const playerTwoDialog = document.querySelector(".player2-modal");
   const playerTwoForm = document.forms["player2-form"];
-  // const cancelBtn = document.querySelector(".cancel-btn");
+  const cancelBtnPlayerOne = document.querySelector(".cancel-btn-player1");
+  const cancelBtnPlayerTwo = document.querySelector(".cancel-btn-player2");
 
   const newRound = (activePlayer) => {
     turn.textContent = `${activePlayer}'s turn.`;
@@ -179,10 +180,13 @@ const Display = (function() {
     playerTwoDialog.close();
   });
 
-  // cancelBtn.addEventListener("click", () => {
-  //   playerOneDialog.close();
-  //   playerTwoDialog.close();
-  // });
+  cancelBtnPlayerOne.addEventListener("click", () => {
+    playerOneDialog.close();
+  });
+
+  cancelBtnPlayerTwo.addEventListener("click", () => {
+    playerTwoDialog.close();
+  })
   
   btn.forEach((button) => {
     button.addEventListener("click", () => {
