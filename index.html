@@ -11,17 +11,20 @@
       <h1>Tic Tac Toe</h1>
     </header>
     <main>
+
       <div>
-        <p class="turn"></p>
-      </div>
-      <div class="score-container">
-        <div class="score-text">
-          <p class="player1-name"></p>
-          <p class="player1-score"></p>
-        </div>
-        <div class="score-text">
-          <p class="player2-name"></p>
-          <p class="player2-score"></p>
+        <div class="score-container">
+          <div class="score-text">
+            <p class="player1-name"></p>
+            <p class="player1-score"></p>
+          </div>
+          <div>
+            <p class="turn"></p>
+          </div>
+          <div class="score-text">
+            <p class="player2-name"></p>
+            <p class="player2-score"></p>
+          </div>
         </div>
       </div>
       <div class="btn-grid">
@@ -32,6 +35,39 @@
       <div class="btn-container">
         <button class="reset-btn">Reset</button>
       </div>
+      
+      <dialog class="player1-modal">
+        <div>
+          <h3>Edit Player 1 name</h3>
+        </div>
+        <form name="player1-form" method="dialog">
+          <div>
+            <label for="newname1">Name:</label>
+            <input type="text" name="newname1" id="newname1">
+          </div>          
+          <div>
+            <!-- <button class="cancel-btn" type="reset">Cancel</button> -->
+            <button class="submit-btn" type="submit">Submit</button>
+          </div>
+        </form>
+      </dialog>
+
+      <dialog class="player2-modal">
+        <div>
+          <h3>Edit Player 2 name</h3>
+        </div>
+        <form name="player2-form" method="dialog">
+          <div>
+            <label for="newname2">Name:</label>
+            <input type="text" name="newname2" id="newname2">
+          </div>          
+          <div>
+            <!-- <button class="cancel-btn" type="reset">Cancel</button> -->
+            <button class="submit-btn" type="submit">Submit</button>
+          </div>
+        </form>
+      </dialog>
+
     </main>
 
     <script src="scripts.js"></script>
