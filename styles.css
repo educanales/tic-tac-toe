@@ -152,6 +152,6 @@ dialog > form {
   gap: 1rem;
 }
 
-.form-btn {
+.form-btn-container {
   text-align: center;
 }
