@@ -55,7 +55,7 @@ header,
 /* Main */
 
 .turn {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   margin-bottom: 2rem;
 }
 
@@ -65,8 +65,8 @@ header,
   /* align-items: center; */
   gap: 3rem;
   margin: 0 auto;
-  max-width: 300px;
-  margin-bottom: 2rem;
+  max-width: 500px;
+  padding: 0 1rem;
 }
 
 .score-text > p {
@@ -76,6 +76,17 @@ header,
 .player1-name,
 .player2-name {
   font-size: 1.1rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid white;
+}
+
+.player1-name:hover,
+.player1-name:focus,
+.player2-name:focus,
+.player2-name:hover {
+  border: 1px solid black;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .player1-score,
@@ -89,6 +100,7 @@ header,
   grid-template-rows: repeat(3, minmax(4rem, 6rem));
   gap: 1rem;
   justify-content: center;
+  padding: 1rem;
 }
 
 .btn-grid > button {
@@ -109,7 +121,7 @@ header,
 }
 
 .btn-container {
-  margin-top: 3rem;
+  margin-top: 2rem;
   display: flex;
   justify-content: center;
   gap: 1rem;
@@ -117,4 +129,16 @@ header,
 
 .btn-container > button {
   padding: 0.5rem 1rem;
+}
+
+/* Dialog */
+
+dialog {
+  border-radius: 15px;
+  margin: 3rem auto;
+  padding: 2rem;
+  border: 1px solid rgb(177, 177, 177);
+  /* display: flex;
+  flex-direction: column;
+  gap: 1rem; */
 }
